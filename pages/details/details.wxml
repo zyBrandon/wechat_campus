@@ -1,0 +1,44 @@
+<view style="height:100vh;">
+    <scroll-view scroll-y style='height:92vh'>
+        <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000">
+            <block>
+                <swiper-item>
+                    <image src='{{imgUrls}}' style='height:60vh;' />
+                </swiper-item>
+            </block>
+        </swiper>
+        <view class='title'>
+            {{title}}
+            <view class='spec'>{{}}</view>
+        </view>
+        <view class='price'>
+            <text>￥</text>
+            {{price}}
+        </view>
+        <view class='freight'>
+            <view class='left'>运费:免运费</view>
+            <view class='right'>数量：1</view>
+        </view>
+        <view class='tab'>
+            <view class='left' bindtap="tabFun" data-state="{{1}}">
+                <text class='{{tabIs?"tab-acitve":""}}'>产品详情</text>
+            </view>
+            <view class='right' bindtap="tabFun" data-state="{{2}}">
+                <text class='{{!tabIs?"tab-acitve":""}}'>售后保障</text>
+            </view>
+        </view>
+        <view class='content' wx:if="{{tabIs}}">
+            {{product_describe}}
+        </view>
+        <view class='content' wx:if="{{!tabIs}}">售后保障</view>
+    </scroll-view>
+    <view class='bottom'>
+    <view class='icon' bindtap='goShopCar'>
+      <image src='/images/shopping_cart_return.png' style='width:20px;height:17px;'></image>
+      <text>购物车</text>
+    </view>
+    <!-- bindtap='specFun' -->
+    <view class='btn' bindtap='addCart'>加入购物车</view>
+    <view class='btn' style='background: #FE4543;' bindtap='addOrder'>立即购买</view>
+  </view>
+</view>

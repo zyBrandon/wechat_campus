@@ -1,0 +1,19 @@
+<view style='height:100vh;'>
+  <scroll-view scroll-y style='height:92vh;'>
+    <view class='list'>
+      <view class='item' wx:for="{{list}}">
+        <view class='item'>
+          <view class='left'>
+            <view>{{item.user_name}} {{item.address}} 收</view>
+            <view>{{iten.name}} {{detailed}}</view>
+          </view>
+          
+          <view class='choice'>
+            <image src='/images/choice_y.png'></image>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+  <navigator url="/pages/addressAdd/index" class='btn'>发布货物</navigator>
+</view>

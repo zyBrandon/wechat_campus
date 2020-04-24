@@ -1,0 +1,65 @@
+<view class="weui-search-bar">
+  <view class="weui-search-bar__form">
+    <view class="weui-search-bar__box">
+      <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+      <input type="text" class="weui-search-bar__input" placeholder="搜索" value="{{inputVal}}" focus="true" bindinput="inputTyping" bindconfirm="searchSubmit"/>
+      <view class="weui-icon-clear" wx:if="{{inputVal.length > 0}}" bindtap="clearInput">
+        <icon type="clear" size="14"></icon>
+      </view>
+    </view>
+    <label class="weui-search-bar__label" hidden="{{inputShowed}}" bindtap="showInput">
+      <icon class="weui-icon-search" type="search" size="14"></icon>
+      <view class="weui-search-bar__text">搜索</view>
+    </label>
+  </view>
+  <view class="weui-search-bar__cancel-btn" hidden="{{!inputShowed}}" bindtap="hideInput">取消</view>
+</view>
+
+
+<scroll-view class="container" scroll-y bindscrolltolower="lower">
+  <swiper indicator-dots="true" autoplay="true" interval="5000" duration="1000">
+    <block wx:for="{{imgUrls}}">
+      <swiper-item>
+        <image src='{{item.img_url}}' style="width:100%;height:220px;" />
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='icon'>
+    <navigator hover-class="none" url="/pages/list/list?type=电子产品">
+      <image src='/images/手机.png' mode="aspectFit"></image>
+      <text>电子产品</text>
+    </navigator>
+    <navigator hover-class="none" url="/pages/list/list?type=二手书">
+      <image src='/images/书.png' mode="aspectFit"></image>
+      <text>二手书</text>
+    </navigator>
+    <navigator hover-class="none" url="/pages/list/list?type=衣服">
+      <image src='/images/衣服.png' mode="aspectFit"></image>
+      <text>衣服</text>
+    </navigator>
+    <navigator hover-class="none" url="/pages/list/list?type=生活用品">
+      <image src='/images/口红.png' mode="aspectFit"></image>
+      <text>生活用品</text>
+    </navigator>
+  </view>
+  <view class='title'>
+    <text class='cn'>推荐</text>
+    <text class='en'>Lovely</text>
+  </view>
+  <view class='list'>
+    <view class='item' wx:for="{{list}}">
+      <navigator hover-class="none" url="/pages/details/details?product_id={{item.product_id}}">
+        <image class='product' src='{{item.product_image_url}}'></image>
+        <text class='text'>{{item.product_name}}</text>
+      </navigator>
+      <view class='price'>
+        <text>￥{{item.product_price}}</text>
+        <view bindtap='addCart' data-item="{{item}}">
+          <image style='width:20px;height:20px;' src='/images/Shopping.png'></image>
+        </view>
+      </view>
+    </view>
+    
+  </view>
+</scroll-view>
+

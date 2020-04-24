@@ -1,0 +1,22 @@
+<view class='main'>
+  <view class='tab'>
+    <view bindtap='tabFun' data-index="{{1}}">
+      <text class='{{tabIndex==1?"active":""}}'>{{title}}</text>
+    </view>
+  </view>
+  <scroll-view scroll-y class='list'>
+      <view class='item' wx:if="{{!isEdit}}" wx:for="{{list}}">
+      <navigator class='content' hover-class="none" url="/pages/orderDetails/index?id={{item._id}}">
+        <image src='{{item.productContent.product_image_url}}'></image>
+        <view class='text'>
+          <view class='title'>{{item.productContent.product_name}}</view>
+          <view class='spec'>{{item.productContent.creat_date}}</view>
+          <view class='price'>
+            <text>¥{{item.productContent.product_price}}</text>
+          </view>
+          <view>{{item.order_status==1?'出售中':'已完成'}}</view>
+        </view>
+      </navigator>
+    </view>
+  </scroll-view>
+</view>

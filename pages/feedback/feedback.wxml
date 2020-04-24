@@ -1,0 +1,17 @@
+<!--pages/feedback/feedback.wxml-->
+<view class="main">
+  <view class='data'>
+    <view class='item'>
+      <text>反馈主题</text>
+      <input type='text' value="{{feedback_title}}" bindinput="bindfeedback_title" placeholder='请填写'></input>
+    </view>
+    <view class='item'>
+      <text>反馈内容</text>
+      <textarea  type='text' value="{{feedback_content}}" bindinput="bindfeedback_content" placeholder='' ></textarea >
+    </view>
+    
+    <image src="{{product_image_url}}" style="width:100rpx;height:100rpx"></image>
+    
+  </view>
+  <view class='btn active' bindtap='submitFun'>发布</view>
+</view>
