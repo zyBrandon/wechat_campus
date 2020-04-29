@@ -15,7 +15,11 @@ Page({
     product_sell_user:"",
     name:"",
     latitude:"",
-    longitude:""
+    longitude:"",
+
+    selectShow: false,//控制下拉列表的显示隐藏，false隐藏、true显示
+    selectData: ['电子产品', '二手书', '衣服','生活用品'],//下拉列表的数据
+    index: 0,//选择的下拉列表下标
   },
 
   /**
@@ -110,11 +114,30 @@ Page({
       success(result) {
         console.log(result.data)
         wx.showToast({
-          title: '操作成功！', // 标题
+          title: '发布成功', // 标题
           icon: 'success',  // 图标类型，默认success
           duration: 1500  // 提示窗停留时间，默认1500ms
         })
       }
     })
+  },
+
+// 点击下拉显示框
+  selectTap() {
+    this.setData({
+      selectShow: !this.data.selectShow
+    });
+  },
+  // 点击下拉列表
+  optionTap(e) {
+    var that = this
+    let Index = e.currentTarget.dataset.index;//获取点击的下拉列表的下标
+    //console.log(this.data.selectData[Index])
+    that.setData({
+      product_type: this.data.selectData[Index],
+      selectShow: !this.data.selectShow,
+      index:Index
+    });
   }
+
 })

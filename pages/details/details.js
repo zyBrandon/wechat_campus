@@ -41,30 +41,33 @@ Page({
         that.setData({
           nickName:res.userInfo.nickName
         })
+
+        wx.request({
+          url: 'http://localhost:8008/getdetail', //仅为示例，并非真实的接口地址
+          data: {
+            'product_id': options.product_id,
+            'nickName': res.userInfo.nickName
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success(result) {
+            console.log(result.data)
+            that.setData({
+              imgUrls: result.data.data.product.product_image_url,
+              title: result.data.data.product.product_name,
+              price: result.data.data.product.product_price,
+              product_describe: result.data.data.product.product_describe,
+              product_id: options.product_id
+            })
+          }
+        })
         
       }
     })
 
     console.log(options.product_id)
-    wx.request({
-      url: 'http://localhost:8008/getdetail', //仅为示例，并非真实的接口地址
-      data: {
-        'product_id': options.product_id
-      },
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success(result) {
-        console.log(result.data)
-        that.setData({
-          imgUrls: result.data.data.product.product_image_url,
-          title: result.data.data.product.product_name,
-          price: result.data.data.product.product_price,
-          product_describe: result.data.data.product.product_describe,
-          product_id: options.product_id
-        })
-      }
-    })
+    
   },
 
   addCart: function (data) {

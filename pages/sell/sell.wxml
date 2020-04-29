@@ -6,7 +6,18 @@
     </view>
     <view class='item'>
       <text>商品类别</text>
-      <input type='text' value="{{product_type}}" bindinput="bindproduct_type" placeholder='请填写'></input>
+      <!--<input type='text' value="{{product_type}}" bindinput="bindproduct_type" placeholder='请填写'></input>-->
+
+      <view class='select_box'>
+        <view class='select' catchtap='selectTap'>
+          <text class='select_text'>{{selectData[index]}}</text>
+          <image class='select_img {{selectShow&&"select_img_rotate"}}' src='../../images/下拉.png' background-size="contain"></image>
+        </view>
+        <view class='option_box' style='height:{{selectShow?(selectData.length>5?325:selectData.length*50):0}}rpx;'>
+          <text class='option' wx:for='{{selectData}}' wx:key='this' data-index='{{index}}' catchtap='optionTap'>{{item}}</text>
+        </view>
+      </view>
+
     </view>
     <view class='item'>
       <text>商品详细</text>
@@ -17,8 +28,7 @@
       <input type='text' value="{{product_price}}" bindinput="bindproduct_price" placeholder='请填写'></input>
     </view>
     <view class='item' bindtap="chooseLocation">
-      <text>地区</text>
-      {{locationName}}
+      <text>地区</text> {{locationName}}
       <view class='icon'>
         <image src='/images/my_order.png'></image>
       </view>
@@ -28,10 +38,10 @@
       <view class='icon'>
         <image src='/images/my_order.png'></image>
       </view>
-      
+
     </view>
     <image src="{{product_image_url}}" style="width:100rpx;height:100rpx"></image>
-    
+
   </view>
   <view class='btn active' bindtap='submitFun'>发布</view>
 </view>
