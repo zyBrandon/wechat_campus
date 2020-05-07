@@ -52,6 +52,9 @@
         <image class='product' src='{{item.product_image_url}}'></image>
         <text class='text'>{{item.product_name}}</text>
       </navigator>
+      <view bindtap='addLike' data-item="{{item}}">
+          <image style='width:20px;height:20px;' src='/images/点赞.png'></image>
+        </view>
       <view class='price'>
         <text>￥{{item.product_price}}</text>
         <view bindtap='addCart' data-item="{{item}}">

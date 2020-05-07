@@ -14,7 +14,7 @@
           <view class='price'>
             <text>¥{{item.productContent.product_price}}</text>
           </view>
-          <view>{{item.order_status==1?'出售中':'已完成'}}</view>
+          <view>{{item.order_status==1?'进行中':'已完成'}}</view>
         </view>
       </navigator>
     </view>

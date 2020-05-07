@@ -54,8 +54,41 @@ Page({
         }
       }
     })
+  },
 
-    
+  onShow:function(){
+    var that = this
+    // 查看是否授权
+    wx.getSetting({
+      success(res) {
+        if (res.authSetting['scope.userInfo']) {
+          // 已经授权，可以直接调用 getUserInfo 获取头像昵称
+          wx.getUserInfo({
+            success: function (res) {
+              console.log(res.userInfo.nickName)
+              wx.request({
+                url: 'http://localhost:8008/home', //仅为示例，并非真实的接口地址
+                data: {
+                  'nickName': res.userInfo.nickName,
+                },
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success(result) {
+                  console.log(result.data)
+                  that.setData({
+                    imgUrls: result.data.data.adv,
+                    list: result.data.data.product,
+                    nickName: res.userInfo.nickName
+                  })
+                }
+              })
+
+            }
+          })
+        }
+      }
+    })
   },
 
   showInput: function () {
@@ -102,7 +135,29 @@ Page({
         })
       }
     })
+  },
 
+  addLike: function (data){
+    var that = this
+    console.log(data.currentTarget.dataset.item)
+    wx.request({
+      url: 'http://localhost:8008/addlike', //仅为示例，并非真实的接口地址
+      data: {
+        'product_id': data.currentTarget.dataset.item.product_id,
+        'nickName': this.data.nickName
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(result) {
+        console.log(result.data)
+        wx.showToast({
+          title: '点赞成功', // 标题
+          icon: 'success',  // 图标类型，默认success
+          duration: 1500  // 提示窗停留时间，默认1500ms
+        })
+      }
+    })
   }
   
 })

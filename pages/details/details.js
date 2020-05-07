@@ -85,7 +85,7 @@ Page({
       success(result) {
         console.log(result.data)
         wx.showToast({
-          title: '操作成功！', // 标题
+          title: '购买成功', // 标题
           icon: 'success',  // 图标类型，默认success
           duration: 1500  // 提示窗停留时间，默认1500ms
         })
@@ -94,6 +94,17 @@ Page({
 
   },
   addOrder:function(data){
+
+    /*wx.requestPayment({
+      timeStamp: '',
+      nonceStr: '',
+      package: '',
+      signType: 'MD5',
+      paySign: '',
+      success(res) { },
+      fail(res) { }
+    })*/
+
     var that = this
     console.log(data.currentTarget.dataset.item)
     wx.request({
@@ -114,6 +125,7 @@ Page({
         })
       }
     })
+    
   }
   
 })

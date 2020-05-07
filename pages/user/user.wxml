@@ -6,6 +6,7 @@
     </navigator> -->
     <view>
        <view class='img'><open-data type="userAvatarUrl"></open-data></view><view class='text'><open-data type="userNickName"></open-data></view>
+       积分:{{point}}分
     </view>
   </view>
   <navigator url="/pages/order/order?item=0" class='item'>

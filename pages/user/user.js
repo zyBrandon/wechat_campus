@@ -5,28 +5,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    point:""
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad: function (options) {
-      
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
+  
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    var that = this
+    wx.getUserInfo({
+      success: function (res) {
 
+        wx.request({
+          url: 'http://localhost:8008/getpoint', //仅为示例，并非真实的接口地址
+          data: {
+            'nickName': res.userInfo.nickName,
+            'from_keyword':'wechat'
+          },
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success(result) {
+            console.log(result.data)
+            that.setData({
+              point: result.data.data.pointRes,
+            })
+          }
+        })
+      }
+    })
   },
 
   /**

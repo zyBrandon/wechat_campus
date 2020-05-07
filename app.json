@@ -10,7 +10,8 @@
     "pages/order/order",
     "pages/address/address",
     "pages/sellList/sellList",
-    "pages/feedback/feedback"
+    "pages/feedback/feedback",
+    "pages/chat/chat"
   ],
   "window": {
     "backgroundTextStyle": "light",

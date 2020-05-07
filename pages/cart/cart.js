@@ -18,13 +18,19 @@ Page({
             num:"1"
         }
       ],
-      nickName:""
+      nickName:"",
+      selectList:[],
+      buyId:""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+
+  },
+  onShow:function(){
     var that = this
     // 查看是否授权
     wx.getSetting({
@@ -57,168 +63,55 @@ Page({
       }
     })
 
+    for(var i=0;i < this.data.list.length;i++){
+      that.data.select[i]=false;
+    }
   },
   labelFun(e) {//单选
     let that = this
     let num = 0
-    for (let i = 0; i < that.data.list.length; i++) {
-      if (that.data.list[i].id == e.currentTarget.dataset.id) {
-        if (!that.data.list[i].select) {
-          that.data.list[i].select = true
-        } else {
-          that.data.list[i].select = !that.data.list[i].select
-        }
-        that.setData({
-          list: that.data.list
+    let selectListTemp = [];
+    let price = this.data.list[e.currentTarget.dataset.id].product_price
+    let chooseId = this.data.list[e.currentTarget.dataset.id].product_id
+    selectListTemp[e.currentTarget.dataset.id] = true;
+
+    that.setData({
+      selectList:selectListTemp,
+      isEdit:true,
+      totalPrice: price,
+      buyId: chooseId
+    })
+    console.log(this.data.selectList);
+    
+  },
+
+  closeFun:function(){
+
+    
+
+    var that = this
+    wx.request({
+      url: 'http://localhost:8008/addorder', //仅为示例，并非真实的接口地址
+      data: {
+        'product_buy_username': this.data.nickName,
+        'product_id': this.data.buyId,
+        from: "cart"
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(result) {
+        
+        wx.showToast({
+          title: '购买成功', // 标题
+          icon: 'success',  // 图标类型，默认success
+          duration: 1500  // 提示窗停留时间，默认1500ms
         })
-      }
-
-      if (that.data.list[i].select) {
-        num++
-        if (num == that.data.list.length) {
-          that.setData({
-            total: true
-          })
-        } else {
-          that.setData({
-            total: false
-          })
-        }
-      }
-    }
-    this.totalPrice()
-  },
-
-  totalFun() { //全选
-    this.data.total = !this.data.total
-    // for (let i = 0; i < this.data.list.length; i++) {
-    //   if (this.data.total) {
-    //     this.data.list[i].select = true
-    //   }else{
-    //     this.data.list[i].select = false
-    //   }
-    // }
-    this.data.list.map((v, k) => {
-      if (this.data.total) {
-        v.select = true
-      } else {
-        v.select = false
+        that.onShow();
       }
     })
-    this.setData({
-      list: this.data.list,
-      total: this.data.total
-    })
-
-    this.totalPrice()
-  },
-  editFun() { //编辑
-    this.setData({
-      isEdit: !this.data.isEdit
-    })
-
-    if (!this.data.isEdit) {
-      console.log(this.data.list)
-      app.http('v1/order/editCart', { list: this.data.list }, "POST")
-        .then(res => {
-          console.log(res)
-        })
-    }
-  },
-  plusFun(item) { //增加商品数量
-    this.data.list.map((v, k) => {
-      if (v.id == item.target.dataset.item.id) {
-        this.data.list[k].num++
-      }
-    })
-
-    this.setData({
-      list: this.data.list
-    })
-
-    this.totalPrice()
-  },
-  reduceFun(item) { //减少商品数量
-    this.data.list.map((v, k) => {
-      if (v.id == item.target.dataset.item.id) {
-        if (this.data.list[k].num > 1) {
-          this.data.list[k].num--
-        }
-      }
-    })
-    this.setData({
-      list: this.data.list
-    })
-
-    this.totalPrice()
-  },
-  delItemFun(item) { //删除单商品
-
-    let id = item.target ? item.target.dataset.item.id : item.id
-
-    this.data.list.map((v, k) => {
-      if (v.id == id) {
-        this.data.list.splice(k, 1)
-      }
-    })
-
-    this.setData({
-      list: this.data.list
-    })
-
-    this.totalPrice()
-  },
-  delFun() { //选中删除
-    let list = []
-
-    this.data.list.map((v, k) => {
-      if (!v.select) {
-        list.push(v)
-      }
-    })
-
-    this.setData({
-      list: list
-    })
-
-    this.totalPrice()
-
-  },
-  closeFun: function () {
-    let list = []
-    let listTotal = []
-    this.data.list.map((v, k) => {
-      if (v.select) {
-        list.push(v)
-      } else {
-        listTotal.push(v)
-      }
-    })
-    app.http('v1/order/set', { goods: list }, "POST").then(res => {
-      if (res.code == 200) {
-        app.http('v1/order/editCart', { list: listTotal }, "POST")
-          .then(res => {
-            console.log(res)
-          })
-        wx.navigateTo({
-          url: "/pages/orderDetails/index?id=" + res.data._id
-        });
-      }
-    })
-
-  },
-
-  totalPrice() {//计算总价
-    let that = this
-    let price = 0
-    for (let i = 0; i < that.data.list.length; i++) {
-      if (that.data.list[i].select) {
-        price = price + that.data.list[i].price * that.data.list[i].num
-      }
-    }
-    this.setData({
-      totalPrice: price.toFixed(2)
-    })
-
-  },
+    
+  }
+  
+  
 })
